@@ -1,11 +1,13 @@
-import { DAOComponent } from "./DAOcomp/DAO.tsx";
+"use client";
 
-// Ajusta la ruta según la ubicación de tu componente
+import DAOComponent from "~~/components/DAOComponent";
+
+// 🔹 Importación correcta si es export default
 
 const TestingDaoPage = () => {
   return (
     <div>
-      <h1>Testing DAO Page</h1>
+      <h1>Testing DAO</h1>
       <DAOComponent />
     </div>
   );
