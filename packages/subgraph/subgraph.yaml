@@ -1,26 +1,32 @@
-specVersion: 0.0.4
-description: Greetings
-repository: https://github.com/scaffold-eth/se-2/packages/subgraph/
+specVersion: 0.0.2
+description: AI Trainer DAO - Subgraph
+repository: https://github.com/tu-repo/AI-Trainer-DAO
 schema:
-  file: ./src/schema.graphql
+  file: ./schema.graphql
+
 dataSources:
   - kind: ethereum/contract
-    name: YourContract
+    name: DAO
     network: localhost
     source:
-      abi: YourContract
       address: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      abi: DAO
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Greeting
-        - Sender
+        - Proposal
+        - Vote
       abis:
-        - name: YourContract
-          file: ./abis/localhost_YourContract.json
+        - name: DAO
+          file: ./abis/DAO.json
       eventHandlers:
-        - event: GreetingChange(indexed address,string,bool,uint256)
-          handler: handleGreetingChange
-      file: ./src/mapping.ts
+        - event: ProposalCreated(uint256,string)
+          handler: handleProposalCreated
+        - event: Voted(uint256,uint256)
+          handler: handleVote
+        - event: ProposalExecuted(uint256)
+          handler: handleProposalExecuted
+      file: ./mappings/dao.ts

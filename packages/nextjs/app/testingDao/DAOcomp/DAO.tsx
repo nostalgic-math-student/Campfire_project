@@ -5,6 +5,7 @@ import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
 export const DAOComponent = () => {
   const [newProposal, setNewProposal] = useState("");
+  const [datahash, setDatahash] = useState("");
 
   // Usa el contrato DAO registrado en deployedContracts.ts
   const { writeContractAsync, isPending } = useScaffoldWriteContract({ contractName: "DAO" });
@@ -15,7 +16,7 @@ export const DAOComponent = () => {
       await writeContractAsync(
         {
           functionName: "createProposal", // Nombre de la función en el contrato
-          args: [newProposal], // Argumentos que requiere la función
+          args: [newProposal, "datasetHash"], // Argumentos que requiere la función
         },
         {
           onBlockConfirmation: txnReceipt => {
@@ -36,6 +37,12 @@ export const DAOComponent = () => {
         placeholder="Descripción de la propuesta"
         className="input border border-primary"
         onChange={e => setNewProposal(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Hash del dataset a subir"
+        className="input border border-primary"
+        onChange={e => setDatahash(e.target.value)}
       />
       <button className="btn btn-primary" onClick={handleCreateProposal} disabled={isPending}>
         {isPending ? <span className="loading loading-spinner loading-sm"></span> : "Crear Propuesta"}

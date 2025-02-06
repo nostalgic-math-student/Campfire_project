@@ -1,17 +1,12 @@
-type Greeting @entity {
+type Proposal @entity {
   id: ID!
-  sender: Sender!
-  greeting: String!
-  premium: Boolean
-  value: BigInt
-  createdAt: BigInt!
-  transactionHash: String!
+  description: String!
+  votes: Int!
+  executed: Boolean!
 }
 
-type Sender @entity {
+type Vote @entity {
   id: ID!
-  address: Bytes!
-  greetings: [Greeting!] @derivedFrom(field: "sender")
-  createdAt: BigInt!
-  greetingCount: BigInt!
+  proposal: Proposal!
+  voter: Bytes!
 }
