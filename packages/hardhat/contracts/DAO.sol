@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-
 interface IAITrainer {
     function trainModel(uint256 proposalId, string memory datasetHash) external;
 }
 
-contract DAO is Ownable {
+contract DAO {
     struct Proposal {
         string description;
         uint256 votes;
@@ -22,11 +20,11 @@ contract DAO is Ownable {
     event Voted(uint256 indexed proposalId, uint256 votes);
     event ProposalExecuted(uint256 indexed proposalId, string datasetHash);
 
-    constructor(address initialOwner, address _aiTrainer) Ownable(initialOwner) {
+    constructor( address _aiTrainer) {
         aiTrainer = IAITrainer(_aiTrainer);
     }
 
-    function createProposal(string memory _description, string memory _datasetHash) public onlyOwner {
+    function createProposal(string memory _description, string memory _datasetHash) public {
         proposals.push(Proposal(_description, 0, false, _datasetHash));
         emit ProposalCreated(proposals.length - 1, _description);
     }
@@ -37,7 +35,7 @@ contract DAO is Ownable {
         emit Voted(_proposalId, proposals[_proposalId].votes);
     }
 
-    function executeProposal(uint256 _proposalId) public onlyOwner {
+    function executeProposal(uint256 _proposalId) public {
         require(_proposalId < proposals.length, "Propuesta inexistente");
         require(!proposals[_proposalId].executed, "Ya ejecutada");
 

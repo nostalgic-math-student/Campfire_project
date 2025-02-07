@@ -12,7 +12,7 @@ contract AITrainer is Ownable {
         trainingCount = 0; // Inicializa el contador en 0
     }
 
-    function trainModel(uint256 proposalId, string memory datasetHash) external onlyOwner {
+    function trainModel(uint256 proposalId, string memory datasetHash) external{
         trainingCount++; // Incrementa el contador cada vez que se entrena
 
         emit TrainingStarted(proposalId, datasetHash, trainingCount);

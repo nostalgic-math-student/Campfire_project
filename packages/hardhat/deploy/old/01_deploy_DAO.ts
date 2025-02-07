@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+
 /**
  * Deploys a contract named "DAO" using the deployer account and
  * constructor arguments set to the deployer address
@@ -21,11 +22,12 @@ const deployDAO: DeployFunction = async function (hre: HardhatRuntimeEnvironment
   const { deploy, get } = deployments;
   const { deployer } = await getNamedAccounts();
   const aiTrainer = await get("AITrainer");
+  const aiTrainerAddress = aiTrainer.address;
 
   const dao = await deploy("DAO", {
     from: deployer,
     // Contract constructor arguments
-    args: ["0xf5278628a82C12907e198d42F7b99968D24135D5", aiTrainer.address],
+    args: [aiTrainerAddress],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
